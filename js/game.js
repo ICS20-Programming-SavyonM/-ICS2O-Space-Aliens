@@ -6,6 +6,16 @@
 // Created on: May 2023
 // This file contains the JS functions for index.html
 
+//scene import statements]
+import SplashScene from ".js/splashScene.js"
+
+//create new scenes
+const splashScene = new SplashScene()
+
+/** 
+* Start game
+*/
+
 //Game scene
 const config = {
   type: Phaser.AUTO,
@@ -28,4 +38,10 @@ const config = {
 } 
 
 const game = new Phaser.Game(config)
-console.log(game)
+//console.log(game)
+
+//load scenes
+game.scene.add("splashScene", splashScene)
+
+//start scene
+game.scene.start("splashScene")
