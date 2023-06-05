@@ -28,7 +28,7 @@ class TitleScene extends Phaser.Scene {
   // show image when game loaded
   preload() {
     console.log('Title Scene')
-    this.load.image('titleSceneBackground', 'assets/spacebackground.jpeg')
+    this.load.image('titleSceneBackground', './assets/spacebackground.jpeg')
   }
 
   // set specifications for the image
