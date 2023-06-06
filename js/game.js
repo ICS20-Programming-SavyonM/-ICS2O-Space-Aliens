@@ -18,6 +18,7 @@ const titleScene = new TitleScene()
 const menuScene = new MenuScene()
 const gameScene = new GameScene()
 
+
 //Game scene 
 const config = {
   type: Phaser.AUTO,
@@ -29,7 +30,6 @@ const config = {
       debug: false
     }
   },
-  
   // set background color
   backgroundColor: 0xffffff,
   scale: {
@@ -40,7 +40,6 @@ const config = {
 }
 
 const game = new Phaser.Game(config)
-
 // load scenes
 game.scene.add('splashScene', splashScene)
 game.scene.add('titleScene', titleScene)

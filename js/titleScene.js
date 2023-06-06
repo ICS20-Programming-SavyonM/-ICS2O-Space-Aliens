@@ -40,9 +40,9 @@ class TitleScene extends Phaser.Scene {
     this.titleSceneText = this.add.text(1920 / 2, (1080 / 2) + 350, 'Galactic Shooters', this.titleSceneTextStyle).setOrigin(0.5)
   }
 
-  update(time, delta) {
-    if (time > 6000) {
-      this.scene.switch('menuScene')
+update(time, delta) {
+  if (time > 6000) {
+    this.scene.switch('menuScene');
     }
   }
 }
