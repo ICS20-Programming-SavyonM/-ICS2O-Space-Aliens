@@ -23,9 +23,9 @@ class MenuScene extends Phaser.Scene {
 
   preload() {
     console.log('Menu Scene');
-    this.load.image('menuSceneBackground', './assets/astro.jpeg');
-    this.load.image('startButton', './assets/playbutton.png');
-    this.load.image('hoverButton', './assets/buttoncursor.png');
+    this.load.image('menuSceneBackground', './images/astro.jpeg');
+    this.load.image('startButton', './images/playbutton.png');
+    this.load.image('hoverButton', './images/buttoncursor.png');
   }
 
   create(data) {
@@ -64,5 +64,3 @@ class MenuScene extends Phaser.Scene {
 }
 
 export default MenuScene;
-
-

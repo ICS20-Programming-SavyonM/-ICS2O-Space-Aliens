@@ -1,5 +1,4 @@
-          /* global Phaser */ 
-
+/* global Phaser */ 
 // Copyright (c) 2023 Savyon All rights reserved
 //
 // Created by: Savyon
@@ -30,6 +29,7 @@ const config = {
       debug: false
     }
   },
+  
   // set background color
   backgroundColor: 0xffffff,
   scale: {
@@ -40,11 +40,12 @@ const config = {
 }
 
 const game = new Phaser.Game(config)
+
 // load scenes
 game.scene.add('splashScene', splashScene)
 game.scene.add('titleScene', titleScene)
 game.scene.add('menuScene', menuScene)
 game.scene.add('gameScene', gameScene)
 
-// start title
+// start splash
 game.scene.start('splashScene')

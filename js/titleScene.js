@@ -21,6 +21,7 @@ class TitleScene extends Phaser.Scene {
     this.titleSceneTextStyle = { font: '200px Times', fill: '#AED6F1', align: 'center' }
   }
 
+  //set background color
   init(data) {
   this.cameras.main.setBackgroundColor('#ffffff')
   }
@@ -28,12 +29,12 @@ class TitleScene extends Phaser.Scene {
   // show image when game loaded
   preload() {
     console.log('Title Scene')
-    this.load.image('titleSceneBackground', './assets/spacebackground.jpeg')
+    this.load.image('titleSceneBackground', './images/spacebackground.jpeg')
   }
 
   // set specifications for the image
   create(data) {
-    this.titleSceneBackgroundImage = this.add.sprite(0, 0, 'titleSceneBackground')
+    this.titleSceneBackgroundImage = this.add.sprite(0, 0, 'titleSceneBackground').setScale(2.75)
       
     this.titleSceneBackgroundImage.x = 1920 / 2
     this.titleSceneBackgroundImage.y = 1080 / 2
