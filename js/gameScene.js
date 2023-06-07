@@ -14,8 +14,8 @@ class GameScene extends Phaser.Scene {
   constructor() {
     super({ key: 'gameScene' })
       this.background = null
-        this.ship = null
-       this.fireMissile
+      this.ship = null
+      this.fireMissile = false
   }
 
    init(data) {
@@ -28,7 +28,7 @@ class GameScene extends Phaser.Scene {
     // Load images for the game scene
     this.load.image('spaceBackground', 'assets/spacebackground.png');
     this.load.image('ship', 'assets/spaceship.png');
-    this.load.image('bullet', 'assets/bullet.png');
+    this.load.image('missile', 'assets/missile.gif');
   }
 
   create(data) {
@@ -64,7 +64,7 @@ class GameScene extends Phaser.Scene {
       if (this.fireMissile == false) {
         // Fire the missile
         this.fireMissile = true;
-        const aNewMissile = this.physics.add.sprite(this.ship.x, this.ship.y, 'missile');
+        const aNewMissile = this.physics.add.sprite(this.ship.x, this.ship.y, 'missile').setScale(0.5);
         this.missileGroup.add(aNewMissile);
       }
     }

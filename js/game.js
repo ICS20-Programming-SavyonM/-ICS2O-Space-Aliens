@@ -1,4 +1,4 @@
-/* global Phaser */ 
+          /* global Phaser */ 
 
 // Copyright (c) 2023 Savyon All rights reserved
 //
