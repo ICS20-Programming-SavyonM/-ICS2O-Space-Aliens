@@ -20,11 +20,9 @@ class GameScene extends Phaser.Scene {
     this.fireMissile = false;
     this.score = 0;
     this.scoreText = null;
-    this.scoreTextStyle = {
-      font: '65px Arial',
-      fill: '#ffffff',
-      align: 'center',
-    };
+    this.scoreTextStyle = { font: '65px Arial', fill: '#ffffff', align: 'center' }
+      this.gameOverTextStyle = { font: '65px Arial', fill: '#ff0000', align: 'center' }
+    
     this.spaceKeyObj = null; // Reference for the space key object
   }
 
@@ -43,10 +41,10 @@ class GameScene extends Phaser.Scene {
     this.load.image('alien', 'images/ufo.png');
     this.load.audio('blast', 'sounds/blast.mp3');
     this.load.audio('explosion', 'sounds/explode.wav');
+    this.load.audio('collision', 'sounds/collide.wav')
   }
 
   create() {
-    // Create game objects and initialize variables
 
     // Create and set the background image
     this.background = this.add.image(0, 0, 'spaceBackground').setScale(2.0);
@@ -74,7 +72,7 @@ class GameScene extends Phaser.Scene {
     // Create an alien
     this.createAlien();
 
-    // Add collision detection between missiles and aliens
+    // Add collision between missiles and aliens
     this.physics.add.collider(
       this.missileGroup,
       this.alienGroup,
@@ -96,9 +94,20 @@ class GameScene extends Phaser.Scene {
       }.bind(this)
     );
 
+    //collisions between ship and aliens
+    this.physics.add.collider(this.ship, this.alienGroup, function (shipCollide, alienCollide) {
+      this.sound.play('collision')
+      this.physics.pause()
+      alienCollide.destroy()
+      shipCollide.destroy()
+      this.gameOverText = this.add.text(1920 / 2, 1080 / 2, 'Game Over!\nClick to play again.', this.gameOverTextStyle).setOrigin(0.5)
+      this.gameOverText.setInteractive({ useHandCursor: true})
+      this.gameOverText.on('pointerdown', () => this.scene.start('gameScene'))
+    }.bind(this))
+
     // Create the space key object
     this.spaceKeyObj = this.input.keyboard.addKey('SPACE');
-  }
+}
 
   update(time, delta) {
     // Handle user input and game logic in each frame
