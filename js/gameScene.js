@@ -1,4 +1,4 @@
-/* global Phaser */ 
+/* global Phaser */
 
 // Copyright (c) 2023 Savyon All rights reserved
 //
@@ -7,173 +7,129 @@
 // This is the game scene
 
 /** 
-* This class is the game scene
-*/
+ * This class is the game scene
+ */
 class GameScene extends Phaser.Scene {
-  //this is the constructor
-  constructor() {
-    super({ key: 'gameScene' });
 
-    // Game scene variables
-    this.background = null;
-    this.ship = null;
-    this.fireMissile = false;
-    this.score = 0;
-    this.scoreText = null;
-    this.scoreTextStyle = { font: '65px Arial', fill: '#ffffff', align: 'center' }
-      this.gameOverTextStyle = { font: '65px Arial', fill: '#ff0000', align: 'center' }
-    
-    this.spaceKeyObj = null; // Reference for the space key object
+  // create an alien
+  createAlien () {
+    const alienXLocation = Math.floor(Math.random() * 1920) + 1 // this will get a number between 1 and 1920;
+    let alienXVelocity = Math.floor(Math.random() * 50) + 1 // this will get a number between 1 and 50;
+    alienXVelocity *= Math.round(Math.random()) ? 1 : -1 // this will add minus sign in 50% of cases
+    const anAlien = this.physics.add.sprite(alienXLocation, -100, 'alien').setScale(0.5)
+    anAlien.body.velocity.y = 200
+    anAlien.body.velocity.x = alienXVelocity
+    this.alienGroup.add(anAlien)
   }
 
-  init(data) {
-    // Set the background color of the game scene
-    this.cameras.main.setBackgroundColor('#ffffff');
+  constructor () {
+    super({ key: 'gameScene' })
+
+    this.ship = null
+    this.fireMissile = false
+    this.score = 0
+    this.scoreText = null
+    this.scoreTextStyle = { font: '65px Arial', fill: '#ffffff', align: 'center' }
+
+    this.gameOverText = null
+    this.gameOverTextStyle = { font: '65px Arial', fill: '#ff0000', align: 'center' }
+  }
+
+  init (data) {
+    this.cameras.main.setBackgroundColor('#0x5f6e7a')
   }
 
   preload() {
-    
     // Load game assets
-    console.log('Game Scene');
-    this.load.image('spaceBackground', 'images/spacebackground.png');
-    this.load.image('ship', 'images/spaceship.png');
-    this.load.image('missile', 'images/missile.gif');
-    this.load.image('alien', 'images/ufo.png');
-    this.load.audio('blast', 'sounds/blast.mp3');
-    this.load.audio('explosion', 'sounds/explode.wav');
-    this.load.audio('collision', 'sounds/collide.wav')
+    console.log('Game Scene')
+    this.load.image('spaceBackground', 'images/spacebackground.png')
+    this.load.image('ship', 'images/spaceship.png')
+    this.load.image('missile', 'images/missile.gif')
+    this.load.image('alien', 'images/ufo.png')
+    this.load.audio('blast', 'sounds/blast.mp3')
+    this.load.audio('explosion', 'sounds/explode.wav')
+    this.load.audio('death', 'sounds/death.wav')
   }
 
-  create() {
+  create (data) {
+    this.background = this.add.image(0, 0, 'spaceBackground').setScale(2.0)
+    this.background.setOrigin(0, 0)
 
-    // Create and set the background image
-    this.background = this.add.image(0, 0, 'spaceBackground').setScale(2.0);
-    this.background.setOrigin(0, 0);
+    this.scoreText = this.add.text(10, 10, 'Score: ' + this.score.toString(), this.scoreTextStyle)
 
-    // Create and set the score text
-    this.scoreText = this.add.text(
-      10,
-      10,
-      'Score: ' + this.score.toString(),
-      this.scoreTextStyle
-    );
+    this.ship = this.physics.add.sprite(1920 / 2, 1080 - 100, 'ship').setScale(0.3)
 
-    // Create the spaceship
-    this.ship = this.physics.add
-      .sprite(1920 / 2, 1080 - 100, 'ship')
-      .setScale(0.3);
+    // create a group for the missiles
+    this.missileGroup = this.physics.add.group()
 
-    // Create a group for the missiles
-    this.missileGroup = this.physics.add.group();
+    // create a group for the aliens
+    this.alienGroup = this.add.group()
+    this.createAlien()
 
-    // Create a group for the aliens
-    this.alienGroup = this.add.group();
+    // Collisions between missiles and aliens
+    this.physics.add.collider(this.missileGroup, this.alienGroup, function (missileCollide, alienCollide) {
+      alienCollide.destroy()
+      missileCollide.destroy()
+      this.sound.play('explosion')
+      this.score = this.score + 1
+      this.scoreText.setText('Score: ' + this.score.toString())
+      this.createAlien()
+    }.bind(this))
 
-    // Create an alien
-    this.createAlien();
-
-    // Add collision between missiles and aliens
-    this.physics.add.collider(
-      this.missileGroup,
-      this.alienGroup,
-      function (missileCollide, alienCollide) {
-        // Destroy the alien and missile
-        alienCollide.destroy();
-        missileCollide.destroy();
-
-        // Play explosion sound
-        this.sound.play('explosion');
-
-        // Update the score
-        this.score += 1;
-        this.scoreText.setText('Score: ' + this.score.toString());
-
-        // Create new aliens
-        this.createAlien();
-        this.createAlien();
-      }.bind(this)
-    );
-
-    //collisions between ship and aliens
+    // Collisions between ship and aliens
     this.physics.add.collider(this.ship, this.alienGroup, function (shipCollide, alienCollide) {
-      this.sound.play('collision')
+      this.sound.play('death')
       this.physics.pause()
       alienCollide.destroy()
       shipCollide.destroy()
       this.gameOverText = this.add.text(1920 / 2, 1080 / 2, 'Game Over!\nClick to play again.', this.gameOverTextStyle).setOrigin(0.5)
-      this.gameOverText.setInteractive({ useHandCursor: true})
+      this.gameOverText.setInteractive({ useHandCursor: true })
       this.gameOverText.on('pointerdown', () => this.scene.start('gameScene'))
     }.bind(this))
+  }
 
-    // Create the space key object
-    this.spaceKeyObj = this.input.keyboard.addKey('SPACE');
-}
+  update (time, delta) {
+    // called 60 times a second, hopefully!
+    const keyLeftObj = this.input.keyboard.addKey('LEFT')
+    const keyRightObj = this.input.keyboard.addKey('RIGHT')
+    const keySpaceObj = this.input.keyboard.addKey('SPACE')
 
-  update(time, delta) {
-    // Handle user input and game logic in each frame
-
-    // Get the left and right arrow key objects
-    const keyLeftObj = this.input.keyboard.addKey('LEFT');
-    const keyRightObj = this.input.keyboard.addKey('RIGHT');
-
-    // Move the spaceship left or right based on the arrow key input
-    if (keyLeftObj.isDown == true) {
+      // Move the spaceship left or right based on the arrow key input
+    if (keyLeftObj.isDown === true) {
       this.ship.x -= 15;
       if (this.ship.x < 0) {
         this.ship.x = this.cameras.main.width;
       }
     }
 
-    if (keyRightObj.isDown == true) {
+    if (keyRightObj.isDown === true) {
       this.ship.x += 15;
       if (this.ship.x > this.cameras.main.width) {
         this.ship.x = 0;
       }
     }
-
-    // Check for space key press
-    if (Phaser.Input.Keyboard.JustDown(this.spaceKeyObj)) {
+    
+    if (keySpaceObj.isDown === true) {
       if (this.fireMissile === false) {
-        // Fire the missile
-        this.fireMissile = true;
-        const aNewMissile = this.physics.add
-          .sprite(this.ship.x, this.ship.y, 'missile')
-          .setScale(0.5);
-        this.missileGroup.add(aNewMissile);
-        this.sound.play('blast');
+        // fire missile
+        this.fireMissile = true
+        const aNewMissile = this.physics.add.sprite(this.ship.x, this.ship.y, 'missile').setScale(0.5)
+        this.missileGroup.add(aNewMissile)
+        this.sound.play('blast')
       }
     }
-
-    // Check for space key release
-    if (this.spaceKeyObj.isUp == true) {
-      this.fireMissile = false;
+  
+    if (keySpaceObj.isUp === true) {
+      this.fireMissile = false
     }
 
-    // Update the position of missiles and destroy them if they go off-screen
     this.missileGroup.children.each(function (item) {
-      item.y = item.y - 15;
-      if (item.y < 0) {
-        item.destroy();
+      item.y = item.y - 15
+      if (item.y < 50) {
+        item.destroy()
       }
-    });
-  }
-
-  createAlien() {
-    // Create a new alien
-
-    // Generate random X location and velocity for the alien
-    const alienXLocation = Math.floor(Math.random() * 1920) + 1;
-    let alienXVelocity = Math.floor(Math.random() * 50) + 1;
-    alienXVelocity *= Math.round(Math.random()) ? 1 : -1;
-
-    // Create the alien sprite and set its velocity
-    const anAlien = this.physics.add.sprite(alienXLocation, -100, 'alien');
-    anAlien.body.velocity.y = 200;
-    anAlien.body.velocity.x = alienXVelocity;
-
-    // Add the alien to the alien group
-    this.alienGroup.add(anAlien);
+    })
   }
 }
 
-export default GameScene;
+export default GameScene
