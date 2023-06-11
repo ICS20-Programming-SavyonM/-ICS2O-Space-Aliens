@@ -22,6 +22,7 @@ class GameScene extends Phaser.Scene {
     this.alienGroup.add(anAlien)
   }
 
+  //this is the constructor
   constructor () {
     super({ key: 'gameScene' })
 
@@ -32,7 +33,7 @@ class GameScene extends Phaser.Scene {
     this.scoreTextStyle = { font: '65px Arial', fill: '#ffffff', align: 'center' }
 
     this.gameOverText = null
-    this.gameOverTextStyle = { font: '65px Arial', fill: '#ff0000', align: 'center' }
+    this.gameOverTextStyle = { font: '65px Arial', fill: '#98E483', align: 'center' }
   }
 
   init (data) {
@@ -89,28 +90,28 @@ class GameScene extends Phaser.Scene {
   }
 
   update (time, delta) {
-    // called 60 times a second, hopefully!
+    // called 60 times a second
     const keyLeftObj = this.input.keyboard.addKey('LEFT')
     const keyRightObj = this.input.keyboard.addKey('RIGHT')
     const keySpaceObj = this.input.keyboard.addKey('SPACE')
 
       // Move the spaceship left or right based on the arrow key input
-    if (keyLeftObj.isDown === true) {
+    if (keyLeftObj.isDown == true) {
       this.ship.x -= 15;
       if (this.ship.x < 0) {
         this.ship.x = this.cameras.main.width;
       }
     }
 
-    if (keyRightObj.isDown === true) {
+    if (keyRightObj.isDown == true) {
       this.ship.x += 15;
       if (this.ship.x > this.cameras.main.width) {
         this.ship.x = 0;
       }
     }
     
-    if (keySpaceObj.isDown === true) {
-      if (this.fireMissile === false) {
+    if (keySpaceObj.isDown == true) {
+      if (this.fireMissile == false) {
         // fire missile
         this.fireMissile = true
         const aNewMissile = this.physics.add.sprite(this.ship.x, this.ship.y, 'missile').setScale(0.5)
@@ -119,10 +120,11 @@ class GameScene extends Phaser.Scene {
       }
     }
   
-    if (keySpaceObj.isUp === true) {
+    if (keySpaceObj.isUp == true) {
       this.fireMissile = false
     }
 
+    // Update the position of missiles and destroy them if they go off-screen
     this.missileGroup.children.each(function (item) {
       item.y = item.y - 15
       if (item.y < 50) {
