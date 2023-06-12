@@ -16,13 +16,13 @@ class GameScene extends Phaser.Scene {
     const alienXLocation = Math.floor(Math.random() * 1920) + 1 // this will get a number between 1 and 1920;
     let alienXVelocity = Math.floor(Math.random() * 50) + 1 // this will get a number between 1 and 50;
     alienXVelocity *= Math.round(Math.random()) ? 1 : -1 // this will add minus sign in 50% of cases
-    const anAlien = this.physics.add.sprite(alienXLocation, -100, 'alien').setScale(0.5)
-    anAlien.body.velocity.y = 200
-    anAlien.body.velocity.x = alienXVelocity
-    this.alienGroup.add(anAlien)
+    const anAlien = this.physics.add.sprite(alienXLocation, -100, 'alien').setScale(0.5) 
+    anAlien.body.velocity.y = 200 
+    anAlien.body.velocity.x = alienXVelocity 
+    this.alienGroup.add(anAlien) 
   }
 
-  //this is the constructor
+  // this is the constructor 
   constructor () {
     super({ key: 'gameScene' })
 
@@ -41,6 +41,7 @@ class GameScene extends Phaser.Scene {
   }
 
   preload() {
+    
     // Load game assets
     console.log('Game Scene')
     this.load.image('spaceBackground', 'images/spacebackground.png')
@@ -50,7 +51,7 @@ class GameScene extends Phaser.Scene {
     this.load.audio('blast', 'sounds/blast.mp3')
     this.load.audio('explosion', 'sounds/explode.wav')
     this.load.audio('death', 'sounds/death.wav')
-  }
+  } 
 
   create (data) {
     this.background = this.add.image(0, 0, 'spaceBackground').setScale(2.0)
@@ -72,9 +73,9 @@ class GameScene extends Phaser.Scene {
       alienCollide.destroy()
       missileCollide.destroy()
       this.sound.play('explosion')
-      this.score = this.score + 1
-      this.scoreText.setText('Score: ' + this.score.toString())
-      this.createAlien()
+      this.score = this.score + 1 
+      this.scoreText.setText('Score: ' + this.score.toString()) 
+      this.createAlien() 
     }.bind(this))
 
     // Collisions between ship and aliens

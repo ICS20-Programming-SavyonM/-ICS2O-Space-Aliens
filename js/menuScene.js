@@ -26,10 +26,14 @@ class MenuScene extends Phaser.Scene {
     this.load.image('menuSceneBackground', './images/astro.jpeg');
     this.load.image('startButton', './images/playbutton.png');
     this.load.image('hoverButton', './images/buttoncursor.png');
+    this.load.audio('Track', 'sounds/SpaceTrack.mp3') 
   }
 
   create(data) {
-    this.menuSceneBackgroundImage = this.add.sprite(0, 0, 'menuSceneBackground');
+     const song = this.sound.add('Track');
+  song.loop = true;
+  song.play();
+    this.menuSceneBackgroundImage = this.add.sprite(0, 0, 'menuSceneBackground'); 
     this.menuSceneBackgroundImage.x = 1920 / 2;
     this.menuSceneBackgroundImage.y = 1080 / 2;
 
@@ -54,7 +58,6 @@ class MenuScene extends Phaser.Scene {
   }
 
   update(time, delta) {
-    // Add your code to update game objects here
   }
 
   clickButton() {
