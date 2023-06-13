@@ -9,11 +9,13 @@
 /** 
 * This class is the menu scene
 */
-class YouWin extends Phaser.Scene {
+class instructionsScene extends Phaser.Scene {
+  
+  //this is the constructor
   constructor() {
-    super({ key: "youWin" });
+    super({ key: "instructionsScene" });
 
-    this.menuSceneBackgroundImage = null;
+    this.instructionSceneBackgroundImage = null;
     this.startButton = null;
   }
 
@@ -22,8 +24,7 @@ class YouWin extends Phaser.Scene {
   }
 
   preload() {
-    console.log('You Win');
-    this.load.image('menuSceneBackground', './images/astro.jpeg');
+    this.load.image('menuSceneBackground', './images/interiorship.avif');
     this.load.audio('Track', 'sounds/SpaceTrack.mp3');
   }
 
@@ -32,10 +33,10 @@ class YouWin extends Phaser.Scene {
     song.loop = true;
     song.play();
     
-    this.menuSceneBackgroundImage = this.add.sprite(0, 0, 'menuSceneBackground');
+  
     this.menuSceneBackgroundImage.setOrigin(0.5);
     this.menuSceneBackgroundImage.setPosition(1920 / 2, 1080 / 2);
   }
 }
 
-export default YouWin;
+export default instructionsScene

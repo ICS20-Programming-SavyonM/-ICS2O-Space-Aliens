@@ -15,6 +15,7 @@ class MenuScene extends Phaser.Scene {
 
     this.menuSceneBackgroundImage = null;
     this.startButton = null;
+    this.instructionsButton = null;
   }
 
   init(data) {
@@ -26,45 +27,45 @@ class MenuScene extends Phaser.Scene {
     this.load.image('menuSceneBackground', './images/astro.jpeg');
     this.load.image('startButton', './images/playbutton.png');
     this.load.image('hoverButton', './images/buttoncursor.png');
-    this.load.audio('Track', 'sounds/SpaceTrack.mp3') 
+    this.load.image('instructions', './images/instructions.png');
+    this.load.audio('Track', 'sounds/SpaceTrack.mp3');
   }
 
   create(data) {
-     const song = this.sound.add('Track');
-  song.loop = true;
-  song.play();
-    this.menuSceneBackgroundImage = this.add.sprite(0, 0, 'menuSceneBackground'); 
+    const song = this.sound.add('Track');
+    song.loop = true;
+    song.play();
+
+    this.menuSceneBackgroundImage = this.add.sprite(0, 0, 'menuSceneBackground');
     this.menuSceneBackgroundImage.x = 1920 / 2;
     this.menuSceneBackgroundImage.y = 1080 / 2;
 
     this.startButton = this.add.sprite(1920 / 2, (1080 / 2) + 100, 'startButton');
     this.startButton.setInteractive({ useHandCursor: true });
-
-    // Save the original texture key
     this.startButton.originalTextureKey = this.startButton.texture.key;
-
-    // Event listener for hover in
     this.startButton.on('pointerover', () => {
       this.startButton.setTexture('hoverButton');
     });
-
-    // Event listener for hover out
     this.startButton.on('pointerout', () => {
       this.startButton.setTexture(this.startButton.originalTextureKey);
     });
-
-    // Event listener for click
     this.startButton.on('pointerdown', () => this.clickButton());
+
+    this.instructions = this.add.sprite(50, 50, 'instructions');
+    this.instructions.setInteractive({ useHandCursor: true });
+    this.instructions.originalTextureKey = this.instructions.texture.key;
+    this.instructions.on('pointerdown', () => this.clickInstructions());
   }
 
-  update(time, delta) {
-  }
+  update(time, delta) {}
 
   clickButton() {
-    
-    // Handle button click event
     this.scene.start('gameScene');
+  }
+  
+  clickinstructions() {
+    this.scene.start('InstructionsScene');
   }
 }
 
-export default MenuScene;
+export default MenuScene
