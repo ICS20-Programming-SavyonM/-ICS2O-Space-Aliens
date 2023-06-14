@@ -10,15 +10,17 @@ import SplashScene from './splashScene.js'
 import TitleScene from './titleScene.js'
 import MenuScene from './menuScene.js'
 import GameScene from './gameScene.js'
+import InstructionsScene from './instructionsScene.js' 
 
 // my game scenes
 const splashScene = new SplashScene()
 const titleScene = new TitleScene()
 const menuScene = new MenuScene()
 const gameScene = new GameScene()
+const instructionsScene = new InstructionsScene()
 
 
-//Game scene 
+// Game scene 
 const config = {
   type: Phaser.AUTO,
   width: 1920,
@@ -41,11 +43,13 @@ const config = {
 
 const game = new Phaser.Game(config)
 
-// load scenes
+// Load scenes
 game.scene.add('splashScene', splashScene)
 game.scene.add('titleScene', titleScene)
 game.scene.add('menuScene', menuScene)
 game.scene.add('gameScene', gameScene)
+game.scene.add('instructionsScene', instructionsScene)
 
-// start splash
+// Start splash
 game.scene.start('splashScene')
+

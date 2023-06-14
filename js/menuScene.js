@@ -10,8 +10,6 @@
 * This class is the menu scene
 */
 class MenuScene extends Phaser.Scene {
-  
-  // this is the constructor
   constructor() {
     super({ key: "menuScene" });
 
@@ -53,9 +51,10 @@ class MenuScene extends Phaser.Scene {
     });
     this.startButton.on('pointerdown', () => this.clickButton());
 
-    this.instructionsButton = this.add.sprite(50, 150, 'instructionsButton'); // Updated sprite variable name
+  this.instructionsButton = this.add.sprite(1920/2, 100, 'instructionsButton'); 
+  this.instructionsButton.setScale(0.5); 
     this.instructionsButton.setInteractive({ useHandCursor: true });
-    this.instructionsButton.on('pointerdown', () => this.clickInstructions()); // Updated method call
+    this.instructionsButton.on('pointerdown', () => this.clickInstructions());
   }
 
   update(time, delta) {}
@@ -66,7 +65,9 @@ class MenuScene extends Phaser.Scene {
   
   clickInstructions() {
     this.scene.start('instructionsScene');
+    this.sound.pauseAll();
   }
 }
 
-export default MenuScene
+export default MenuScene;
+

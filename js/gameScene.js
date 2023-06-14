@@ -80,7 +80,7 @@ class GameScene extends Phaser.Scene {
 
     // Create a new alien after the collision handling
 this.time.addEvent({
-  delay: 1000, // Adjust the delay as per your preference
+  delay: 1000, 
   callback: this.createAlien,
   callbackScope: this,
   loop: true
@@ -96,6 +96,10 @@ this.time.addEvent({
       // Reset the score to 0
       this.score = 0;
       this.scoreText.setText('Score: ' + this.score.toString());
+
+      // Disable the space bar
+    const keySpaceObj = this.input.keyboard.addKey('SPACE')
+    keySpaceObj.enabled = false; 
       
       this.gameOverText = this.add.text(1920 / 2, 1080 / 2, 'Game Over!\nClick to play again.', this.gameOverTextStyle).setOrigin(0.5)
       this.gameOverText.setInteractive({ useHandCursor: true })
@@ -108,8 +112,8 @@ this.time.addEvent({
   const keyRightObj = this.input.keyboard.addKey('RIGHT')
   const keySpaceObj = this.input.keyboard.addKey('SPACE')
 
-// Code for ship left with left arrow
-if (keyLeftObj.isDown === true) {
+// Action of ship when left key is clicked
+if (keyLeftObj.isDown == true) {
   this.ship.setFlipX(true);
   this.ship.x -= 15;
   if (this.ship.x < 0) {
@@ -118,8 +122,8 @@ if (keyLeftObj.isDown === true) {
   this.ship.setScale(-0.3, 0.3);
 }
 
-// Code for ship right with right arrow
-if (keyRightObj.isDown === trce) {
+// Action of ship when right key is clicked
+if (keyRightObj.isDown == true) {
   this.ship.setFlipX(false);
   this.ship.x += 15;
   if (this.ship.x > 1920) {
@@ -147,7 +151,7 @@ if (keyRightObj.isDown === trce) {
     this.fireMissile = true;
     const aNewMissile = this.physics.add.sprite(this.ship.x, this.ship.y, 'missile').setScale(0.5);
     this.missileGroup.add(aNewMissile);
-    this.sound.play('blast.');
+    this.sound.play('blast');
   }
 }
 
