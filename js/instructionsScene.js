@@ -4,19 +4,18 @@
 //
 // Created by: Savyon
 // Created on: May 2023
-// This is the menu scene
+// This is the instructions scene
 
 /** 
 * This class is the menu scene
 */
 class instructionsScene extends Phaser.Scene {
   
-  //this is the constructor
+  // this is the constructor
   constructor() {
     super({ key: "instructionsScene" });
 
-    this.instructionSceneBackgroundImage = null;
-    this.startButton = null;
+    this.intship = null;
   }
 
   init(data) {
@@ -24,7 +23,7 @@ class instructionsScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('menuSceneBackground', './images/interiorship.avif');
+    this.load.image('intship', './images/interiorship.jpg');
     this.load.audio('Track', 'sounds/SpaceTrack.mp3');
   }
 
@@ -32,10 +31,9 @@ class instructionsScene extends Phaser.Scene {
     const song = this.sound.add('Track');
     song.loop = true;
     song.play();
-    
-  
-    this.menuSceneBackgroundImage.setOrigin(0.5);
-    this.menuSceneBackgroundImage.setPosition(1920 / 2, 1080 / 2);
+
+    this.intship = this.add.image(1920 / 2, 1080 / 2, 'intship');
+    this.intship.setOrigin(0.5);
   }
 }
 

@@ -92,6 +92,11 @@ this.time.addEvent({
       this.physics.pause()
       alienCollide.destroy()
       shipCollide.destroy()
+
+      // Reset the score to 0
+      this.score = 0;
+      this.scoreText.setText('Score: ' + this.score.toString());
+      
       this.gameOverText = this.add.text(1920 / 2, 1080 / 2, 'Game Over!\nClick to play again.', this.gameOverTextStyle).setOrigin(0.5)
       this.gameOverText.setInteractive({ useHandCursor: true })
       this.gameOverText.on('pointerdown', () => this.scene.start('gameScene'))
@@ -99,26 +104,30 @@ this.time.addEvent({
   }
 
   update(time, delta) {
-    
-  // called 60 times a second
   const keyLeftObj = this.input.keyboard.addKey('LEFT')
   const keyRightObj = this.input.keyboard.addKey('RIGHT')
   const keySpaceObj = this.input.keyboard.addKey('SPACE')
 
-  // Move the spaceship left or right based on the arrow key input
-  if (keyLeftObj.isDown == true) {
-    this.ship.x -= 15;
-    if (this.ship.x < 0) {
-      this.ship.x = this.cameras.main.width;
-    }
+// Code for ship left with left arrow
+if (keyLeftObj.isDown === true) {
+  this.ship.setFlipX(true);
+  this.ship.x -= 15;
+  if (this.ship.x < 0) {
+    this.ship.x = 1920;
   }
+  this.ship.setScale(-0.3, 0.3);
+}
 
-  if (keyRightObj.isDown == true) {
-    this.ship.x += 15;
-    if (this.ship.x > this.cameras.main.width) {
-      this.ship.x = 0;
-    }
+// Code for ship right with right arrow
+if (keyRightObj.isDown === trce) {
+  this.ship.setFlipX(false);
+  this.ship.x += 15;
+  if (this.ship.x > 1920) {
+    this.ship.x = 0;
   }
+  this.ship.setScale(0.3);
+}
+
 
   if (keySpaceObj.isDown == true) {
     if (this.fireMissile == false) {
@@ -130,6 +139,21 @@ this.time.addEvent({
       this.sound.play('blast')
     }
   }
+
+    if (keySpaceObj.isDown && !this.gameOverText) {
+  if (this.fireMissile == false) {
+    
+    // fire missile
+    this.fireMissile = true;
+    const aNewMissile = this.physics.add.sprite(this.ship.x, this.ship.y, 'missile').setScale(0.5);
+    this.missileGroup.add(aNewMissile);
+    this.sound.play('blast.');
+  }
+}
+
+if (keySpaceObj.isUp) {
+  this.fireMissile = false;
+}
 
   if (keySpaceObj.isUp == true) {
     this.fireMissile = false

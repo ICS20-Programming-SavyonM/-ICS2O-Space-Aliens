@@ -10,6 +10,8 @@
 * This class is the menu scene
 */
 class MenuScene extends Phaser.Scene {
+  
+  // this is the constructor
   constructor() {
     super({ key: "menuScene" });
 
@@ -27,7 +29,7 @@ class MenuScene extends Phaser.Scene {
     this.load.image('menuSceneBackground', './images/astro.jpeg');
     this.load.image('startButton', './images/playbutton.png');
     this.load.image('hoverButton', './images/buttoncursor.png');
-    this.load.image('instructions', './images/instructions.png');
+    this.load.image('instructionsButton', './images/instructions.png'); 
     this.load.audio('Track', 'sounds/SpaceTrack.mp3');
   }
 
@@ -51,10 +53,9 @@ class MenuScene extends Phaser.Scene {
     });
     this.startButton.on('pointerdown', () => this.clickButton());
 
-    this.instructions = this.add.sprite(50, 50, 'instructions');
-    this.instructions.setInteractive({ useHandCursor: true });
-    this.instructions.originalTextureKey = this.instructions.texture.key;
-    this.instructions.on('pointerdown', () => this.clickInstructions());
+    this.instructionsButton = this.add.sprite(50, 150, 'instructionsButton'); // Updated sprite variable name
+    this.instructionsButton.setInteractive({ useHandCursor: true });
+    this.instructionsButton.on('pointerdown', () => this.clickInstructions()); // Updated method call
   }
 
   update(time, delta) {}
@@ -63,8 +64,8 @@ class MenuScene extends Phaser.Scene {
     this.scene.start('gameScene');
   }
   
-  clickinstructions() {
-    this.scene.start('InstructionsScene');
+  clickInstructions() {
+    this.scene.start('instructionsScene');
   }
 }
 
