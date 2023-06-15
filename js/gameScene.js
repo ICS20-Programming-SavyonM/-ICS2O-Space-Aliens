@@ -1,7 +1,5 @@
 /* global Phaser */
-
 // Copyright (c) 2023 Savyon All rights reserved
-//
 // Created by: Savyon
 // Created on: May 2023
 // This is the game scene
@@ -80,7 +78,7 @@ class GameScene extends Phaser.Scene {
 
     // Create a new alien after the collision handling
 this.time.addEvent({
-  delay: 1000, 
+  delay: 1000, // Adjust the delay as per your preference
   callback: this.createAlien,
   callbackScope: this,
   loop: true
